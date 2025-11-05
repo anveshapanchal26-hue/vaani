@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vaani Voice Assistant</title>
+</head>
+<body style="background:black; color:white; text-align:center; font-family:sans-serif;">
+  <h1>🎙️ Vaani</h1>
+  <button id="micButton" style="padding:20px; font-size:18px;">Tap to Speak</button>
+  <p id="output"></p>
+
+  <script>
+    const micButton = document.getElementById('micButton');
+    const output = document.getElementById('output');
+
+    // 🎤 Voice Input
+    micButton.addEventListener('click', () => {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-IN';
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const voiceText = event.results[0][0].transcript;
+        output.innerText = "You said: " + voiceText;
+
+        // 🗣️ Voice Response
+        const reply = "Hello, I am Vaani. You said " + voiceText;
+        const speech = new SpeechSynthesisUtterance(reply);
+        speech.lang = 'en-IN';
+        speech.pitch = 1;
+        speech.rate = 1;
+        window.speechSynthesis.speak(speech);
+      };
+    });
+  </script>
+</body>
+</html>
